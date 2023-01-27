@@ -18,9 +18,8 @@ int main()
         }
         if (oneProblemResult >= 2) {
             finalResult++;
-            oneProblemResult = 0;
         }
-        else oneProblemResult = 0;
+        oneProblemResult = 0;
 
 
     }
