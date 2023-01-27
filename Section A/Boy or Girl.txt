@@ -1,0 +1,20 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main()
+{
+    string username="",uniqueChars="";
+    int countDistinct = 0;
+    cin >> username;
+    for (int i = 0; i < username.length(); i++) {
+        //If username[i] exist before in the uniqueChars string then dont add it
+        if (uniqueChars.find(username[i]) != string::npos) continue;
+        //else add it
+        else uniqueChars.push_back(username[i]);
+
+    }
+    if (uniqueChars.length() % 2 == 0) cout << "CHAT WITH HER!";
+    else cout << "IGNORE HIM!";
+    return 0;
+}
