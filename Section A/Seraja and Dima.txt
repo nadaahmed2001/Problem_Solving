@@ -1,0 +1,46 @@
+#include <iostream>
+#include <array>
+using namespace std;
+
+int main()
+{
+    int n,seraja=0,dima=0,turn=1;
+    cin >> n;
+    int* arr = new int[n];
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    int i=0, j=n-1;//i-->pointer from right , j-->pointer from left
+    while(i<=j){
+        //Dima's turn
+        if (turn % 2 == 0) {
+            if (arr[i] > arr[j]) { //left is larger
+                dima += arr[i];
+                i++;
+            }
+            else {//right is larger
+                dima += arr[j];
+                j--;
+            }
+        }
+
+        //Seraja's turn
+        else {
+            if (arr[i] > arr[j]) { //left is larger
+                seraja += arr[i];
+                i++;
+            }
+            else {//right is larger
+                seraja += arr[j];
+                j--;
+            }
+        }
+
+        turn++;
+    }
+
+    cout << seraja << " " << dima;
+
+    
+    return 0;
+}
