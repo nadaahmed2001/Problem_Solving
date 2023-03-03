@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    long long numOfOranges, maxOrangeSize, MaxTotalSizeWaste;
+    cin >> numOfOranges >> maxOrangeSize >> MaxTotalSizeWaste;
+
+    long long* arr = new long long[numOfOranges];
+    for (long long i = 0; i < numOfOranges; i++) cin >> arr[i];
+
+    long long waste = 0, counter = 0;
+    for (long long i = 0; i < numOfOranges; i++) {
+
+        if (arr[i] <= maxOrangeSize) {//Squeeze this orange
+            waste += arr[i];
+            if (waste > MaxTotalSizeWaste) {
+                waste = 0;//Empty the waste
+                counter++;
+            }
+
+        }
+        else continue;//Do nothing with this orange
+    }
+
+    cout << counter;
+
+    return 0;
+}
