@@ -1,69 +1,92 @@
 #include <iostream>
+#include <stack>
 #include <vector>
-#include <algorithm>
+#include<sstream>
 using namespace std;
 
-vector<int> maximumPerimeterTriangle(vector<int> sticks)
-{
-    bool validFound = false;
-    vector<int>v;//final answer
-    long long max = 0, sum = 0;
-    //get all possible combinations
-    for (int i = 0; i < sticks.size(); i++)
-    {
-        for (int j = i + 1; j < sticks.size(); j++)
-        {
-            for (int k = j + 1; k < sticks.size(); k++)
-            {
-                //check if triangle is valid
-                if (sticks[i] + sticks[j] > sticks[k]
-                        && sticks[i] + sticks[k] > sticks[j]
-                        && sticks[k] + sticks[j] > sticks[i])  //Valid found
-                {
-                    validFound = true;
-                    sum = sticks[i] + sticks[j] + sticks[k];
-                    while (sum < 0)
-                        sum += 1e9;
-                    if (sum > max)
-                    {
-                        v.clear();
-                        max = sum;
-                        v.push_back(sticks[i]);
-                        v.push_back(sticks[j]);
-                        v.push_back(sticks[k]);
+vector<int> getMax(vector<string> operations) {
+    vector<int>output;
 
-                    }
-
+    stack<int>s;
+    int max = 0;
+    int i;
+    if (operations[0] == "") i = 1;
+    else i = 0;
+    while (i != operations.size()) {
+            if (operations[i][0] == '1') {
+                string s1 = operations[i];//ex: 1 20
+                string word;
+                istringstream iss(s1);
+                vector<string> pushOperation;
+                while (iss >> word) pushOperation.push_back(word.c_str());
+                int x = stoi(pushOperation.at(1));
+                s.push(x);
+                if (x > max) {
+                    max = x;
                 }
             }
-        }
-    }
-    sort(v.begin(), v.end());
-    if (validFound == true)
-        return v;
-    else
-        return{ -1 };
+            else if (operations[i][0] == '2') {
+                //check if the max is the element to be removed
+                if (!s.empty()) {
+                    if (s.top() == max) {
+                        if (s.size() == 1) {
+                            max = 0;//the only and the max element in the stack is deleted
+                            s.pop();
+                        }
+                        else {//Search for the other max element
+                            
+                            s.pop();
+                            stack<int>TempStack = s;
+                            stack<int>maxStack;
+                            int tempMax = 0;
+                            while (!TempStack.empty()) {
+                                //push if this is the first element or the element is greater that maxStack.top
+                                if (TempStack.top() > tempMax || maxStack.empty()) {
+                                    maxStack.push(TempStack.top());
+                                    tempMax = TempStack.top();
+                                }
+                                TempStack.pop();
 
+                            }
+                            max = maxStack.top();
+                            
+                        }
+
+                    }
+                    else s.pop();
+
+                }
+
+            }
+            else {//Print max element
+                output.push_back(max);
+            }
+            i++;
+    }
+
+    return output;
 }
+
 int main()
 {
     int n;
     cin >> n;
-    int* sticks = new int[n];
-    vector<int>v;
-    for (int i = 0; i < n; i++)
-    {
-        cin >> sticks[i];
-        v.push_back(sticks[i]);
+    vector<string>operations(n);
+    for (int i = 0; i < n; i++) {
+        string ops_item;
+        getline(cin, ops_item);
+        if (ops_item == "") {
+            i--;
+            continue;
+        }
+
+        else operations[i] = ops_item;
+    }
+    vector<int> res = getMax(operations);
+
+    for (int i = 0; i < res.size(); i++) {
+        cout << res.at(i) << "\n";
 
     }
-
-    vector<int> v1 = maximumPerimeterTriangle(v);
-    for (int i = 0; i < v1.size(); i++)
-    {
-        cout << v1.at(i) << " ";
-    }
-
-
     return 0;
 }
