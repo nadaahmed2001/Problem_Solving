@@ -9,7 +9,8 @@ int main() {
     long long* arr = new long long[n];
     long long* prefix = new long long[n];
     long long* sortedArr = new long long[n];
-
+    long long* sortedPrefix = new long long[n];
+    
     for (long long i = 0; i < n; i++) {
         cin >> arr[i];
         sortedArr[i] = arr[i];
@@ -19,7 +20,7 @@ int main() {
 
     sort(sortedArr, sortedArr + n);//non-decreasing order
     //get prefix of sorted array
-    long long* sortedPrefix = new long long[n];
+
     for (long long i = 0; i < n; i++) {
         if (i == 0) sortedPrefix[i] = sortedArr[i];
         else sortedPrefix[i] = sortedPrefix[i - 1] + sortedArr[i];
